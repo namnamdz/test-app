@@ -48,7 +48,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -74,6 +76,7 @@
     "@types/lodash": "^4.14.202",
     "@types/react-slick": "^0.23.13",
     "@types/react-swipeable-views": "^0.13.5",
+    "gh-pages": "^6.1.1",
     "typescript": "^4.9.5"
   }
 }
