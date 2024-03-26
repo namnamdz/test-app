@@ -227,7 +227,12 @@ const ListMedical = () => {
   });
 
   const handleAddNewProfile = () => {
-    if (Object.keys(formik.errors).length !== 0) {
+    if ( Object.keys(formik.errors).length !== 0 ||
+      !formik.values.phoneNumber ||
+      !formik.values.fullName ||
+      !formik.values.dob ||
+      !formik.values.address
+    ){
       console.log(1, formik.errors);
       return;
     } else {
