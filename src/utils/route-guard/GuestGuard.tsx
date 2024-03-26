@@ -11,10 +11,11 @@ const GuestGuard = ({ children }: GuardProps) => {
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
-    if (isLoggedIn) {
-      navigate("home", { replace: true });
-    }
-  }, [isLoggedIn, navigate]);
+    //if (isLoggedIn) {
+    //  navigate("home", { replace: true });
+    //}
+    navigate("home", { replace: true });
+  }, [navigate]);
   return children;
 };
 
