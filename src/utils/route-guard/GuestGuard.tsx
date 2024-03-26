@@ -14,7 +14,7 @@ const GuestGuard = ({ children }: GuardProps) => {
     //if (isLoggedIn) {
     //  navigate("home", { replace: true });
     //}
-    navigate("home", { replace: true });
+    navigate("/", { replace: true });
   }, [navigate]);
   return children;
 };
