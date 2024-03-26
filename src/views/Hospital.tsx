@@ -1,87 +1,56 @@
-import React, { useEffect } from "react";
-import "ol/ol.css";
-import Map from "ol/Map";
-import View from "ol/View";
-import { fromLonLat } from "ol/proj";
-import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
-import { OSM, Vector as VectorSource } from "ol/source";
-import Feature from "ol/Feature";
-import Point from "ol/geom/Point";
-import { Icon, Style } from "ol/style";
-import Overlay from "ol/Overlay";
+import React from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css"; // Import CSS từ leaflet
+import L from "leaflet"; // Import Leaflet
 
-const MapComponent = () => {
-  useEffect(() => {
-    const markerFeature = new Feature({
-      geometry: new Point(fromLonLat([105.85504793070729, 21.017069714364983])),
-    });
+// Import hình ảnh cho biểu tượng đánh dấu
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
 
-    const markerLayer = new VectorLayer({
-      source: new VectorSource({
-        features: [markerFeature],
-      }),
-      style: new Style({
-        image: new Icon({
-          src: "https://openlayers.org/en/latest/examples/data/icon.png",
-          anchor: [0.5, 1],
-        }),
-      }),
-    });
+// Thay đổi đường dẫn mặc định của biểu tượng
+let DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+});
 
-    const map = new Map({
-      target: "map",
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-        markerLayer,
-      ],
-      view: new View({
-        center: fromLonLat([105.85504793070729, 21.017069714364983]),
-        zoom: 15,
-      }),
-    });
+L.Marker.prototype.options.icon = DefaultIcon;
 
-    const popupContainer = document.getElementById("popup");
-    if (popupContainer) {
-      const popup = new Overlay({
-        element: popupContainer,
-        positioning: "bottom-center",
-        stopEvent: false,
-        offset: [0, -10],
-      });
-      map.addOverlay(popup);
-
-      markerFeature.addEventListener("click", (evt: any) => {
-        if (evt && evt.coordinate) {
-          const coordinate = evt.coordinate;
-          popup.setPosition(coordinate);
-          popupContainer.innerHTML =
-            "<div>Phòng khám Đa khoa Dr. Binh Tele_Clinic<br/>Số 11-13-15 Trần Xuân Soạn, P. Phạm Đình Hổ, Q. Hai Bà Trưng, Hà Nội</div>";
-        }
-      });
-    }
-
-    return () => {
-      map.dispose();
-    };
-  }, []);
+const MapWithMarkers = () => {
+  const markers: any = [
+    {
+      position: [21.017069714364983, 105.85504793070729],
+      text: `hòng khám Đa khoa Dr. Binh Tele_Clinic. <br /> Số 11-13-15 Trần Xuân Soạn, P. Phạm Đình Hổ, Q. Hai Bà Trưng, Hà Nội`,
+    },
+    {
+      position: [21.008348248985463, 105.7960968694903],
+      text: `Thu Cúc TCI Trần Duy Hưng. <br /> Số 216 Đ. Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội 100000, Việt Nam`,
+    },
+    {
+      position: [21.042602314382332, 105.84463814408113],
+      text: `Bệnh Viện Đa Khoa Hồng Ngọc. <br />  Số 55 P. Yên Ninh, Quán Thánh, Ba Đình, Hà Nội, Việt Nam`,
+    },
+  ];
 
   return (
-    <div>
-      <div id="map" style={{ width: "100%", height: "400px" }}></div>
-      <div
-        id="popup"
-        style={{
-          display: "none",
-          backgroundColor: "white",
-          padding: "10px",
-          borderRadius: "5px",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-        }}
-      ></div>
-    </div>
+    <MapContainer
+      center={[21.008348248985463, 105.7960968694903]}
+      zoom={13}
+      style={{ height: "700px", width: "100%" }}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+
+      {markers.map((marker: any, index: any) => (
+        <Marker key={index} position={marker.position}>
+          <Popup>
+            <div dangerouslySetInnerHTML={{ __html: marker.text }} />
+          </Popup>
+        </Marker>
+      ))}
+    </MapContainer>
   );
 };
 
-export default MapComponent;
+export default MapWithMarkers;
