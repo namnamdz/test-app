@@ -1,13 +1,12 @@
+//THIRD-IMPORT
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css"; // Import CSS từ leaflet
-import L from "leaflet"; // Import Leaflet
-
-// Import hình ảnh cho biểu tượng đánh dấu
+import "leaflet/dist/leaflet.css";
+import L from "leaflet"; 
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
+//PROJECT-IMPORT
 
-// Thay đổi đường dẫn mặc định của biểu tượng
 let DefaultIcon = L.icon({
   iconUrl: icon,
   shadowUrl: iconShadow,
